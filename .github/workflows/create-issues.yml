@@ -19,72 +19,71 @@ jobs:
             const issues = [
               {
                 title: "Błąd w warunku count",
-                body: `Podczas analizy kodu gry Saper znaleziono błąd w warunku instrukcji if.
-
-Niepoprawny kod:
-\`if (count /*??*/ 0)\`
-
-Problem: Brakuje operatora porównania.
-
-Rozwiązanie:
-Zastosować operator ==:
-\`if (count == 0)\`
-
-Załącz zrzut ekranu przedstawiający znaleziony błąd.`
+                body: [
+                  "Podczas analizy kodu gry Saper znaleziono błąd w warunku instrukcji if.",
+                  "",
+                  "Niepoprawny kod: if (count /*??*/ 0)",
+                  "",
+                  "Problem: Brakuje operatora porównania.",
+                  "",
+                  "Rozwiązanie: Zastosować operator ==: if (count == 0).",
+                  "",
+                  "Należy dodać zrzut ekranu przedstawiający znaleziony błąd."
+                ].join("\n")
               },
               {
                 title: "Brak inicjalizacji obiektu Random",
-                body: `W kodzie znaleziono brak inicjalizacji obiektu Random.
-
-Niepoprawny kod:
-\`Random random = /*??*/\`
-
-Problem: Obiekt Random nie został prawidłowo utworzony.
-
-Rozwiązanie:
-\`Random random = new Random();\`
-
-Załącz zrzut ekranu przedstawiający znaleziony błąd.`
+                body: [
+                  "W kodzie znaleziono brak inicjalizacji obiektu Random.",
+                  "",
+                  "Niepoprawny kod: Random random = /*??*/",
+                  "",
+                  "Problem: Obiekt Random nie został prawidłowo utworzony.",
+                  "",
+                  "Rozwiązanie: Random random = new Random();",
+                  "",
+                  "Należy dodać zrzut ekranu przedstawiający znaleziony błąd."
+                ].join("\n")
               },
               {
                 title: "Brak instrukcji return w InitializeDisplayBoard",
-                body: `W metodzie InitializeDisplayBoard brakuje instrukcji zwracającej tablicę displayBoard.
-
-Problem: Metoda nie zwraca przygotowanej tablicy.
-
-Rozwiązanie:
-Dodać instrukcję:
-\`return displayBoard;\`
-
-Załącz zrzut ekranu przedstawiający znaleziony błąd.`
+                body: [
+                  "W metodzie InitializeDisplayBoard brakuje instrukcji zwracającej tablicę displayBoard.",
+                  "",
+                  "Problem: Metoda nie zwraca przygotowanej tablicy.",
+                  "",
+                  "Rozwiązanie: Dodać instrukcję return displayBoard;",
+                  "",
+                  "Należy dodać zrzut ekranu przedstawiający znaleziony błąd."
+                ].join("\n")
               },
               {
                 title: "Niekompletne wywołanie Math.Min",
-                body: `W metodzie CountAdjacentBombs znaleziono niekompletne wywołanie Math.Min.
-
-Niepoprawny fragment:
-\`j <= /*??*/(width - 1, x + 1)\`
-
-Problem: Brakuje nazwy funkcji Math.Min.
-
-Rozwiązanie:
-\`j <= Math.Min(width - 1, x + 1)\`
-
-Załącz zrzut ekranu przedstawiający znaleziony błąd.`
+                body: [
+                  "W metodzie CountAdjacentBombs znaleziono niekompletne wywołanie Math.Min.",
+                  "",
+                  "Niepoprawny kod: j <= /*??*/(width - 1, x + 1)",
+                  "",
+                  "Problem: Brakuje nazwy funkcji Math.Min.",
+                  "",
+                  "Rozwiązanie: j <= Math.Min(width - 1, x + 1)",
+                  "",
+                  "Należy dodać zrzut ekranu przedstawiający znaleziony błąd."
+                ].join("\n")
               },
               {
                 title: "Błąd w warunku CheckWin",
-                body: `W metodzie CheckWin znaleziono niekompletny warunek.
-
-Niepoprawny fragment:
-\`return uncoveredCount == /* ??*/ * height - bombCount;\`
-
-Problem: Brakuje zmiennej width.
-
-Rozwiązanie:
-\`return uncoveredCount == width * height - bombCount;\`
-
-Załącz zrzut ekranu przedstawiający znaleziony błąd.`
+                body: [
+                  "W metodzie CheckWin znaleziono niekompletny warunek.",
+                  "",
+                  "Niepoprawny kod: return uncoveredCount == /* ??*/ * height - bombCount;",
+                  "",
+                  "Problem: Brakuje zmiennej width.",
+                  "",
+                  "Rozwiązanie: return uncoveredCount == width * height - bombCount;",
+                  "",
+                  "Należy dodać zrzut ekranu przedstawiający znaleziony błąd."
+                ].join("\n")
               }
             ];
 
