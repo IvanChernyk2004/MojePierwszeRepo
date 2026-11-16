@@ -1,58 +1,44 @@
-<CodeBlock language="yaml" editable>
+
 name: Create five bug issues
 
-"on":
+'on':
   workflow_dispatch:
 
 permissions:
   issues: write
 
 jobs:
-create-issues:
-runs-on: ubuntu-latest
-steps:
-- name: Create issues
-uses: actions/github-script@v7
-with:
-script: |
-const issues = [
-{
-title: "Błąd w warunku count",
-body: "Znaleziono błąd w warunku if. Niepoprawny kod: if (count /??/ 0). Brakuje operatora porównania. Rozwiązanie: if (count == 0). Należy dodać zrzut ekranu błędu."
-},
-{
-title: "Brak inicjalizacji obiektu Random",
-body: "Znaleziono brak inicjalizacji obiektu Random. Niepoprawny kod: Random random = /??/. Rozwiązanie: Random random = new Random(). Należy dodać zrzut ekranu błędu."
-},
-{
-title: "Brak instrukcji return w InitializeDisplayBoard",
-body: "W metodzie InitializeDisplayBoard brakuje instrukcji zwracającej tablicę displayBoard. Rozwiązanie: return displayBoard;. Należy dodać zrzut ekranu błędu."
-},
-{
-title: "Niekompletne wywołanie Math.Min",
-body: "W metodzie CountAdjacentBombs znaleziono niekompletne wywołanie Math.Min. Rozwiązanie: j <= Math.Min(width - 1, x + 1). Należy dodać zrzut ekranu błędu."
-},
-{
-title: "Błąd w warunku CheckWin",
-body: "W metodzie CheckWin brakuje zmiennej width. Rozwiązanie: return uncoveredCount == width * height - bombCount;. Należy dodać zrzut ekranu błędu."
-}
-];
+  create:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create issues
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issues = [
+              ["Błąd w warunku count", "Brakuje operatora porównania. Poprawka: if (count == 0)."],
+              ["Brak inicjalizacji obiektu Random", "Brakuje inicjalizacji obiektu Random. Poprawka: Random random = new Random();"],
+              ["Brak instrukcji return w InitializeDisplayBoard", "Brakuje instrukcji zwracającej tablicę. Poprawka: return displayBoard;"],
+              ["Niekompletne wywołanie Math.Min", "Niekompletne wywołanie funkcji. Poprawka: Math.Min(width - 1, x + 1)."],
+              ["Błąd w warunku CheckWin", "Brakuje zmiennej width. Poprawka: width * height - bombCount."]
+            ];
 
-for (const issue of issues) {
-              const existing = await github.rest.issues.listForRepo({
+            for (const [title, description] of issues) {
+              const result = await github.rest.issues.listForRepo({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 state: "all",
                 per_page: 100
               });
 
-if (!existing.data.some(item => item.title === issue.title)) {
+              const exists = result.data.some(issue => issue.title === title);
+
+              if (!exists) {
                 await github.rest.issues.create({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  title: issue.title,
-                  body: issue.body
+                  title: title,
+                  body: description + "\n\nZrzut ekranu błędu należy dodać do tego Issue."
                 });
               }
             }
-</CodeBlock>
