@@ -8,38 +8,36 @@ permissions:
   issues: write
 
 jobs:
-  test:
+  create:
     runs-on: ubuntu-latest
     steps:
-      - name: Test workflow
-        run: echo "Workflow works"
-
+      - name: Create issues
+        uses: actions/github-script@v7
         with:
           script: |
             const issues = [
-              ["Błąd w warunku count", "Brakuje operatora porównania. Poprawka: if (count == 0)."],
-              ["Brak inicjalizacji obiektu Random", "Brakuje inicjalizacji obiektu Random. Poprawka: Random random = new Random();"],
-              ["Brak instrukcji return w InitializeDisplayBoard", "Brakuje instrukcji zwracającej tablicę. Poprawka: return displayBoard;"],
-              ["Niekompletne wywołanie Math.Min", "Niekompletne wywołanie funkcji. Poprawka: Math.Min(width - 1, x + 1)."],
-              ["Błąd w warunku CheckWin", "Brakuje zmiennej width. Poprawka: width * height - bombCount."]
+              ["Błąd w warunku count", "Brakuje operatora porównania w warunku sprawdzającym wartość count."],
+              ["Błąd inicjalizacji Random", "Obiekt Random nie został poprawnie utworzony."],
+              ["Brak instrukcji return", "Metoda InitializeDisplayBoard nie zwraca tablicy displayBoard."],
+              ["Błąd w warunku pętli", "Brakuje wywołania Math.Min w warunku pętli."],
+              ["Brak zmiennej width", "W warunku sprawdzającym zwycięstwo brakuje zmiennej width."]
             ];
 
+            const result = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "all",
+              per_page: 100
+            });
+
             for (const [title, description] of issues) {
-              const result = await github.rest.issues.listForRepo({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                state: "all",
-                per_page: 100
-              });
-
               const exists = result.data.some(issue => issue.title === title);
-
               if (!exists) {
                 await github.rest.issues.create({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   title: title,
-                  body: description + "\n\nZrzut ekranu błędu należy dodać do tego Issue."
+                  body: description
                 });
               }
             }
