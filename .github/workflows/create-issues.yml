@@ -1,7 +1,7 @@
 <CodeBlock language="yaml" editable>
 name: Create five bug issues
 
-on:
+"on":
   workflow_dispatch:
 
 permissions:
